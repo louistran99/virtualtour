@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		24B9E2546203A45EDDB5E3B6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C327D1390520892038B02CCB /* libPods.a */; };
+		D070CF321A129BEC00AEFD8A /* ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D070CF311A129BEC00AEFD8A /* ImageGenerator.m */; };
 		D076FD821A11985900E9E148 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D076FD811A11985900E9E148 /* main.m */; };
 		D076FD851A11985900E9E148 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D076FD841A11985900E9E148 /* AppDelegate.m */; };
 		D076FD881A11985900E9E148 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D076FD871A11985900E9E148 /* ViewController.m */; };
@@ -45,6 +46,8 @@
 		C327D1390520892038B02CCB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D070CF2D1A12989100AEFD8A /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		D070CF2E1A12998D00AEFD8A /* PanoramaStitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramaStitcher.h; sourceTree = "<group>"; };
+		D070CF301A129BEC00AEFD8A /* ImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageGenerator.h; sourceTree = "<group>"; };
+		D070CF311A129BEC00AEFD8A /* ImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageGenerator.m; sourceTree = "<group>"; };
 		D076FD7C1A11985900E9E148 /* VirtualTour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D076FD801A11985900E9E148 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D076FD811A11985900E9E148 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -110,6 +113,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D070CF2F1A129BAE00AEFD8A /* Image Processing */ = {
+			isa = PBXGroup;
+			children = (
+				D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */,
+				D070CF2E1A12998D00AEFD8A /* PanoramaStitcher.h */,
+				D070CF301A129BEC00AEFD8A /* ImageGenerator.h */,
+				D070CF311A129BEC00AEFD8A /* ImageGenerator.m */,
+			);
+			name = "Image Processing";
+			sourceTree = "<group>";
+		};
 		D076FD731A11985800E9E148 = {
 			isa = PBXGroup;
 			children = (
@@ -133,13 +147,12 @@
 		D076FD7E1A11985900E9E148 /* VirtualTour */ = {
 			isa = PBXGroup;
 			children = (
-				D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */,
-				D070CF2E1A12998D00AEFD8A /* PanoramaStitcher.h */,
 				D070CF2D1A12989100AEFD8A /* PrefixHeader.pch */,
 				D076FD831A11985900E9E148 /* AppDelegate.h */,
 				D076FD841A11985900E9E148 /* AppDelegate.m */,
 				D076FD861A11985900E9E148 /* ViewController.h */,
 				D076FD871A11985900E9E148 /* ViewController.m */,
+				D070CF2F1A129BAE00AEFD8A /* Image Processing */,
 				D076FD891A11985900E9E148 /* Main.storyboard */,
 				D076FD8C1A11985900E9E148 /* Images.xcassets */,
 				D076FD8E1A11985900E9E148 /* LaunchScreen.xib */,
@@ -341,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D070CF321A129BEC00AEFD8A /* ImageGenerator.m in Sources */,
 				D076FD881A11985900E9E148 /* ViewController.m in Sources */,
 				D076FDC11A11A3C900E9E148 /* PanoramaSticher.mm in Sources */,
 				D076FD851A11985900E9E148 /* AppDelegate.m in Sources */,

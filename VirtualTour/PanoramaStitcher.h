@@ -12,9 +12,15 @@
 
 #import <Foundation/Foundation.h> 
 
-@interface PanoramaStitcher : NSObject {}
+@interface PanoramaStitcher : NSObject {
 
 
+}
+
+@property (nonatomic,strong) NSArray *images;   //
+
+
+-(void) process;
 
 @end
 
