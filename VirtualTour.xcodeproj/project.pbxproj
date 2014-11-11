@@ -27,7 +27,7 @@
 		D076FDBB1A11A02C00E9E148 /* IMG_0186.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D076FDAF1A11A02C00E9E148 /* IMG_0186.jpg */; };
 		D076FDBC1A11A02C00E9E148 /* IMG_0187.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D076FDB01A11A02C00E9E148 /* IMG_0187.jpg */; };
 		D076FDBD1A11A02C00E9E148 /* IMG_0188.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D076FDB11A11A02C00E9E148 /* IMG_0188.jpg */; };
-		D076FDC11A11A3C900E9E148 /* PanoramaSticher.m in Sources */ = {isa = PBXBuildFile; fileRef = D076FDC01A11A3C900E9E148 /* PanoramaSticher.m */; };
+		D076FDC11A11A3C900E9E148 /* PanoramaSticher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +43,8 @@
 /* Begin PBXFileReference section */
 		1FB8DC7A3B414710B5B8657B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C327D1390520892038B02CCB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D070CF2D1A12989100AEFD8A /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		D070CF2E1A12998D00AEFD8A /* PanoramaStitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramaStitcher.h; sourceTree = "<group>"; };
 		D076FD7C1A11985900E9E148 /* VirtualTour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D076FD801A11985900E9E148 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D076FD811A11985900E9E148 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -68,7 +70,7 @@
 		D076FDAF1A11A02C00E9E148 /* IMG_0186.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0186.jpg; sourceTree = "<group>"; };
 		D076FDB01A11A02C00E9E148 /* IMG_0187.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0187.jpg; sourceTree = "<group>"; };
 		D076FDB11A11A02C00E9E148 /* IMG_0188.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0188.jpg; sourceTree = "<group>"; };
-		D076FDC01A11A3C900E9E148 /* PanoramaSticher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramaSticher.m; sourceTree = "<group>"; };
+		D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PanoramaSticher.mm; sourceTree = "<group>"; };
 		D9852D8DE31A2E30E49BFAFE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,7 +133,9 @@
 		D076FD7E1A11985900E9E148 /* VirtualTour */ = {
 			isa = PBXGroup;
 			children = (
-				D076FDC01A11A3C900E9E148 /* PanoramaSticher.m */,
+				D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */,
+				D070CF2E1A12998D00AEFD8A /* PanoramaStitcher.h */,
+				D070CF2D1A12989100AEFD8A /* PrefixHeader.pch */,
 				D076FD831A11985900E9E148 /* AppDelegate.h */,
 				D076FD841A11985900E9E148 /* AppDelegate.m */,
 				D076FD861A11985900E9E148 /* ViewController.h */,
@@ -338,7 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D076FD881A11985900E9E148 /* ViewController.m in Sources */,
-				D076FDC11A11A3C900E9E148 /* PanoramaSticher.m in Sources */,
+				D076FDC11A11A3C900E9E148 /* PanoramaSticher.mm in Sources */,
 				D076FD851A11985900E9E148 /* AppDelegate.m in Sources */,
 				D076FD821A11985900E9E148 /* main.m in Sources */,
 			);
@@ -463,6 +467,8 @@
 			baseConfigurationReference = 1FB8DC7A3B414710B5B8657B /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = VirtualTour/PrefixHeader.pch;
 				INFOPLIST_FILE = VirtualTour/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -474,6 +480,8 @@
 			baseConfigurationReference = D9852D8DE31A2E30E49BFAFE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = VirtualTour/PrefixHeader.pch;
 				INFOPLIST_FILE = VirtualTour/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
