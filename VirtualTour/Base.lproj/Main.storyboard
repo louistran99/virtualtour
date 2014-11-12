@@ -32,19 +32,25 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tiN-Km-fSo">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="fR3-et-eew" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="6WS-KY-ACV"/>
                             <constraint firstItem="ZIt-FC-Ys0" firstAttribute="centerY" secondItem="fR3-et-eew" secondAttribute="centerY" constant="-53" id="9LG-cV-2iJ"/>
+                            <constraint firstAttribute="centerY" secondItem="tiN-Km-fSo" secondAttribute="centerY" constant="0.5" id="Eae-xV-dm3"/>
                             <constraint firstItem="ZIt-FC-Ys0" firstAttribute="centerX" secondItem="fR3-et-eew" secondAttribute="centerX" id="IqW-PJ-b1V"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="fR3-et-eew" secondAttribute="bottom" id="jmy-XR-uad"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fR3-et-eew" secondAttribute="trailing" constant="-16" id="kZz-17-8EP"/>
                             <constraint firstItem="fR3-et-eew" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="pQl-R6-Imn"/>
+                            <constraint firstAttribute="centerX" secondItem="tiN-Km-fSo" secondAttribute="centerX" constant="-0.5" id="rPD-Ls-BuP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="snX-ce-2dr"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="tiN-Km-fSo" id="xq8-Xm-e4X"/>
                         <outlet property="imageView" destination="fR3-et-eew" id="NRt-bh-oOg"/>
                         <segue destination="iKk-oD-Lcl" kind="presentation" id="Irb-r0-DVE"/>
                     </connections>

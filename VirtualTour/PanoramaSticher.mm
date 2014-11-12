@@ -12,8 +12,15 @@
 using namespace cv;
 
 
-@implementation PanoramaStitcher
+@interface PanoramaStitcher () {
 
+
+}
+@end
+
+
+
+@implementation PanoramaStitcher
 
 -(instancetype) init {
     self = [super init];
@@ -30,7 +37,6 @@ using namespace cv;
     Mat rImg;
     
     NSMutableArray *files = [self testFiles];
-
     
     for (NSString *file in files) {
         const char *filename = [file UTF8String];
