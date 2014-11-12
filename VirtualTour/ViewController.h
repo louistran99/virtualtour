@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PanoramaStitcher.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <PanoramaStitcherProtocol>
+
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 
 @end

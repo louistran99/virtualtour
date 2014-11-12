@@ -12,14 +12,14 @@
 
 #import <Foundation/Foundation.h> 
 
-@interface PanoramaStitcher : NSObject {
+@protocol PanoramaStitcherProtocol <NSObject>
+-(void) PanoramaStitchingDidFinish:(UIImage*) panorama;
+@end
 
 
-}
 
-@property (nonatomic,strong) NSArray *images;   //
-
-
+@interface PanoramaStitcher : NSObject
+@property (weak) id <PanoramaStitcherProtocol> delegate;
 -(void) process;
 
 @end

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		24B9E2546203A45EDDB5E3B6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C327D1390520892038B02CCB /* libPods.a */; };
 		D070CF321A129BEC00AEFD8A /* ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D070CF311A129BEC00AEFD8A /* ImageGenerator.m */; };
+		D070CF3C1A12BBE100AEFD8A /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = D070CF3B1A12BBE100AEFD8A /* UIImage+OpenCV.mm */; };
+		D070CF3F1A12C1EF00AEFD8A /* ResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D070CF3E1A12C1EF00AEFD8A /* ResultVC.m */; };
 		D076FD821A11985900E9E148 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D076FD811A11985900E9E148 /* main.m */; };
 		D076FD851A11985900E9E148 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D076FD841A11985900E9E148 /* AppDelegate.m */; };
 		D076FD881A11985900E9E148 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D076FD871A11985900E9E148 /* ViewController.m */; };
@@ -48,6 +50,10 @@
 		D070CF2E1A12998D00AEFD8A /* PanoramaStitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramaStitcher.h; sourceTree = "<group>"; };
 		D070CF301A129BEC00AEFD8A /* ImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageGenerator.h; sourceTree = "<group>"; };
 		D070CF311A129BEC00AEFD8A /* ImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageGenerator.m; sourceTree = "<group>"; };
+		D070CF3A1A12BBE100AEFD8A /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
+		D070CF3B1A12BBE100AEFD8A /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
+		D070CF3D1A12C1EF00AEFD8A /* ResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultVC.h; sourceTree = "<group>"; };
+		D070CF3E1A12C1EF00AEFD8A /* ResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultVC.m; sourceTree = "<group>"; };
 		D076FD7C1A11985900E9E148 /* VirtualTour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D076FD801A11985900E9E148 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D076FD811A11985900E9E148 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -116,12 +122,22 @@
 		D070CF2F1A129BAE00AEFD8A /* Image Processing */ = {
 			isa = PBXGroup;
 			children = (
+				D070CF361A12B8AF00AEFD8A /* Utils */,
 				D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */,
 				D070CF2E1A12998D00AEFD8A /* PanoramaStitcher.h */,
 				D070CF301A129BEC00AEFD8A /* ImageGenerator.h */,
 				D070CF311A129BEC00AEFD8A /* ImageGenerator.m */,
 			);
 			name = "Image Processing";
+			sourceTree = "<group>";
+		};
+		D070CF361A12B8AF00AEFD8A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				D070CF3A1A12BBE100AEFD8A /* UIImage+OpenCV.h */,
+				D070CF3B1A12BBE100AEFD8A /* UIImage+OpenCV.mm */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 		D076FD731A11985800E9E148 = {
@@ -147,7 +163,8 @@
 		D076FD7E1A11985900E9E148 /* VirtualTour */ = {
 			isa = PBXGroup;
 			children = (
-				D070CF2D1A12989100AEFD8A /* PrefixHeader.pch */,
+				D070CF3D1A12C1EF00AEFD8A /* ResultVC.h */,
+				D070CF3E1A12C1EF00AEFD8A /* ResultVC.m */,
 				D076FD831A11985900E9E148 /* AppDelegate.h */,
 				D076FD841A11985900E9E148 /* AppDelegate.m */,
 				D076FD861A11985900E9E148 /* ViewController.h */,
@@ -164,6 +181,7 @@
 		D076FD7F1A11985900E9E148 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D070CF2D1A12989100AEFD8A /* PrefixHeader.pch */,
 				D076FDA51A11A00C00E9E148 /* Images */,
 				D076FD801A11985900E9E148 /* Info.plist */,
 				D076FD811A11985900E9E148 /* main.m */,
@@ -358,6 +376,8 @@
 				D076FD881A11985900E9E148 /* ViewController.m in Sources */,
 				D076FDC11A11A3C900E9E148 /* PanoramaSticher.mm in Sources */,
 				D076FD851A11985900E9E148 /* AppDelegate.m in Sources */,
+				D070CF3F1A12C1EF00AEFD8A /* ResultVC.m in Sources */,
+				D070CF3C1A12BBE100AEFD8A /* UIImage+OpenCV.mm in Sources */,
 				D076FD821A11985900E9E148 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,9 +501,11 @@
 			baseConfigurationReference = 1FB8DC7A3B414710B5B8657B /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = VirtualTour/PrefixHeader.pch;
 				INFOPLIST_FILE = VirtualTour/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -494,9 +516,11 @@
 			baseConfigurationReference = D9852D8DE31A2E30E49BFAFE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = VirtualTour/PrefixHeader.pch;
 				INFOPLIST_FILE = VirtualTour/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

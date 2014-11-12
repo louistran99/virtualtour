@@ -8,9 +8,9 @@
 
 #import "ViewController.h"
 #import "PanoramaStitcher.h"
-#import "ImageGenerator.h"
+#import "ResultVC.h"
 
-@interface ViewController ()
+@interface ViewController () 
 
 @end
 
@@ -36,9 +36,22 @@
 -(void) startStitching:(UIGestureRecognizer*) gesture {
     if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
         PanoramaStitcher *sticher = [[PanoramaStitcher alloc] init];
+        sticher.delegate = self;
         [sticher process];
     }
 }
 
+#pragma mark PanoramaStitcherProtocol
+-(void) PanoramaStitchingDidFinish:(UIImage *)panorama {
+//    ResultVC *resultVC = [self.storyboard instantiateViewControllerWithIdentifier:@"resultviewcontroller"];
+//    resultVC.panoramaView.image = panorama;
+//    [self presentViewController:resultVC animated:YES completion:^{
+//        ;
+//    }];
+    _imageView.image = panorama;
+    _imageView.alpha = 1.0f;
+    _imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+}
 
 @end

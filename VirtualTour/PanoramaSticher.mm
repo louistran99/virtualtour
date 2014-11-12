@@ -7,6 +7,7 @@
 //
 
 #import "PanoramaStitcher.h"
+#import "UIImage+OpenCV.h"
 
 using namespace cv;
 
@@ -39,12 +40,17 @@ using namespace cv;
     Stitcher stitcher = Stitcher::createDefault();
     stitcher.stitch(vImg, rImg);
     
+    UIImage *outputImage = [UIImage imageWithCVMat:rImg];
+
+    if ([self.delegate respondsToSelector:@selector(PanoramaStitchingDidFinish:)]) {
+        [self.delegate PanoramaStitchingDidFinish:outputImage];
+    }
     
 }
 
 
 -(NSMutableArray*) testFiles {
-    NSArray *files = @[@"IMG_0177.jpg",@"IMG_0178.jpg"];
+    NSArray *files = @[@"/IMG_0177.jpg",@"/IMG_0178.jpg",@"/IMG_0179.jpg"];
     NSMutableArray *fullPath = [[NSMutableArray alloc] initWithCapacity:files.count];
     
     NSString *mainBundlePath = [[NSBundle mainBundle] resourcePath];

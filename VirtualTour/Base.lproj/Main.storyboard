@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6249" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -42,9 +43,48 @@
                             <constraint firstItem="fR3-et-eew" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="pQl-R6-Imn"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="snX-ce-2dr"/>
+                    <connections>
+                        <outlet property="imageView" destination="fR3-et-eew" id="NRt-bh-oOg"/>
+                        <segue destination="iKk-oD-Lcl" kind="presentation" id="Irb-r0-DVE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1483" y="556"/>
+        </scene>
+        <!--ResultVC-->
+        <scene sceneID="fws-gn-nht">
+            <objects>
+                <viewController storyboardIdentifier="resultviewcontroller" id="iKk-oD-Lcl" customClass="ResultVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Lue-DS-Pet"/>
+                        <viewControllerLayoutGuide type="bottom" id="iW8-XU-g5Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Aec-tK-bmW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dy2-Nn-NVZ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.22745099660000001" green="0.52941179279999995" blue="0.93333339689999995" alpha="1" colorSpace="deviceRGB"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dy2-Nn-NVZ" firstAttribute="leading" secondItem="Aec-tK-bmW" secondAttribute="leadingMargin" constant="-16" id="bnn-tT-71h"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dy2-Nn-NVZ" secondAttribute="trailing" constant="-16" id="el8-KU-4xa"/>
+                            <constraint firstItem="iW8-XU-g5Z" firstAttribute="top" secondItem="dy2-Nn-NVZ" secondAttribute="bottom" id="i4V-1D-kwp"/>
+                            <constraint firstItem="dy2-Nn-NVZ" firstAttribute="top" secondItem="Lue-DS-Pet" secondAttribute="bottom" constant="-20" id="mb8-WU-IwW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="panoramaView" destination="dy2-Nn-NVZ" id="Znx-h1-lFk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Q7-p6-exc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2269" y="556"/>
         </scene>
     </scenes>
 </document>
