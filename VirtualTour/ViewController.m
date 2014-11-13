@@ -14,23 +14,26 @@
 #import "VTRImageDebugView.h"
 
 #import "NSString+Extras.h"
+#import "UIImage+Scale.h"
 
 #define radiansToDegrees(x) (180/M_PI)*x
 
-static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
+static double const kVTrotationThreshold = (25.0 * M_PI / 180);
 
 
 @interface ViewController () <SCRecorderDelegate> {
     dispatch_queue_t _processingQueue;
     SCRecorder *_recorder;
     
-    // motion related ivars
-    CMMotionManager *_motionManager;
+
+    // for animation
+    UIView *_flashView;
 
     
+    // motion related ivars
+    CMMotionManager *_motionManager;
     CADisplayLink *_timer;
     
-    CGFloat _myYaw, _myPitch, _myRoll;
 }
 
 @property (nonatomic,strong) CMAttitude *referenceAttitude;
@@ -77,7 +80,10 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
 -(void) updateReference {
     if (_referenceAttitude == nil) {
         _referenceAttitude = _motionManager.deviceMotion.attitude;
-        [self.debugView.referenceYaw setText:[NSString stringWithFormat:@"%1.2f",_referenceAttitude.yaw]];
+        [self.debugView.referenceYaw setText:[NSString stringWithFormat:@"%1.2f",radiansToDegrees(_referenceAttitude.yaw)]];
+    } else {
+        _referenceAttitude = _motionManager.deviceMotion.attitude;
+        [self.debugView.referenceYaw setText:[NSString stringWithFormat:@"%1.2f",radiansToDegrees(_referenceAttitude.yaw)]];
     }
 }
 
@@ -86,40 +92,6 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
     [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
-
-
--(void) updateMotion {
-//    CMQuaternion quat = _motionManager.deviceMotion.attitude.quaternion;
-//    float myRoll = radiansToDegrees(atan2(2*(quat.y*quat.w - quat.x*quat.z), 1 - 2*quat.y*quat.y - 2*quat.z*quat.z)) ;
-//    float myPitch = radiansToDegrees(atan2(2*(quat.x*quat.w + quat.y*quat.z), 1 - 2*quat.x*quat.x - 2*quat.z*quat.z));
-//    float myYaw = radiansToDegrees(asin(2*quat.x*quat.y + 2*quat.w*quat.z));
-//    
-//    // kalman filtering
-//    static float q = 0.1;   // process noise
-//    static float r = 0.1;   // sensor noise
-//    static float p = 0.1;   // estimated error
-//    static float k = 0.5;   // kalman filter gain
-//    
-//    float x = myYaw;
-//    p = p + q;
-//    k = p / (p + r);
-//    x = x + k*(myYaw - x);
-//    p = (1 - k)*p;
-//    myYaw = x;
-//    
-//    [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",myPitch]];
-//    [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",myRoll]];
-//    [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",myYaw]];
-
-    self.currentAttitude = _motionManager.deviceMotion.attitude;
-    if (self.referenceAttitude) {
-        [self.currentAttitude multiplyByInverseOfAttitude:self.referenceAttitude];
-    }
-    [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
-    [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
-    [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
-    
-}
 
 -(void) stopMotionUpdate {
     [_timer invalidate];
@@ -140,7 +112,17 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
 //            sticher.delegate = self;
 //            [sticher process];
 //        });
-        
+    }
+}
+
+
+
+#pragma mark core motion
+
+-(void) teardownCoreMotion {
+    if (_motionManager) {
+        [_motionManager stopDeviceMotionUpdates];
+        _motionManager = nil;
     }
 }
 
@@ -155,69 +137,23 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
         }
         [_motionManager startDeviceMotionUpdates];
     }
+}
+
+-(void) updateMotion {
+    self.currentAttitude = _motionManager.deviceMotion.attitude;
+    if (self.referenceAttitude) {
+        [self.currentAttitude multiplyByInverseOfAttitude:self.referenceAttitude];
+    }
     
-}
-
-
-#pragma mark set up core motion
--(void) setupCoreMotion {
-    _motionManager = [[CMMotionManager alloc] init];
-    if (_motionManager) {
-        _motionManager.deviceMotionUpdateInterval = 1.0f / 10.0f;
-        if ([CMMotionManager availableAttitudeReferenceFrames] & CMAttitudeReferenceFrameXArbitraryZVertical) {
-            [_motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
-        }
-        
-        ViewController * __weak weakSelf = self;
-        [_motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
-            if (error) {
-                NSLog(@"%@",[error description]);
-            } else {
-                CMQuaternion quat = motion.attitude.quaternion;
-                _myRoll = radiansToDegrees(atan2(2*(quat.y*quat.w - quat.x*quat.z), 1 - 2*quat.y*quat.y - 2*quat.z*quat.z)) ;
-                _myPitch = radiansToDegrees(atan2(2*(quat.x*quat.w + quat.y*quat.z), 1 - 2*quat.x*quat.x - 2*quat.z*quat.z));
-                _myYaw = radiansToDegrees(asin(2*quat.x*quat.y + 2*quat.w*quat.z));
-                
-                // kalman filtering
-                static float q = 0.1;   // process noise
-                static float r = 0.1;   // sensor noise
-                static float p = 0.1;   // estimated error
-                static float k = 0.5;   // kalman filter gain
-                
-                float x = _myYaw;
-                p = p + q;
-                k = p / (p + r);
-                x = x + k*(_myYaw - x);
-                p = (1 - k)*p;
-                _myYaw = x;
-                [weakSelf.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",_myPitch]];
-                [weakSelf.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",_myRoll]];
-                [weakSelf.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",_myYaw]];
-                
-                
-                if (weakSelf.referenceAttitude == nil) {
-                    weakSelf.referenceAttitude = motion.attitude;
-                }
-                
-            }
-        }];
-//        [_motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical toQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
-//            if (error) {
-//                NSLog(@"%@",[error description]);
-//            } else {
-//                [weakSelf.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",motion.attitude.pitch]];
-//                [weakSelf.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",motion.attitude.roll]];
-//                [weakSelf.debugView.yawLabel setText:[NSString stringWithFormat:@"%f",motion.attitude.yaw]];
-//            }
-//        }];
+    if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold)) {
+        [self updateReference];
+        [self takePicture:nil];
     }
-}
-
--(void) teardownCoreMotion {
-    if (_motionManager) {
-        [_motionManager stopDeviceMotionUpdates];
-        _motionManager = nil;
-    }
+//    NSLog(@"angle threshold:%1.2f \t current angle:%1.2f",sinf(kVTrotationThreshold),sin(self.currentAttitude.roll));
+    [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
+    [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
+    [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
+    
 }
 
 
@@ -262,10 +198,58 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
 #pragma mark tear down video
 
 
+
 #pragma take picture
 
+- (void) takePicture:(id)sender {
+    [_recorder capturePhoto:^(NSError *error, UIImage *image) {
+        if (!error) {
+            if (image) {
+                CGFloat scale = 1024.0/image.size.height;
+                CGSize newSize = CGSizeMake(scale*image.size.width, scale*image.size.height);
+                image = [image resizeImage:image newSize:newSize];
+                
+                
+                _imageView.image = image;
+                _imageView.alpha = 1.0f;
+                _imageView.contentMode = UIViewContentModeScaleAspectFit;
+                
+                NSLog(@"w:%1.0f\t h:%1.0f",[image size].width, [image size].height);
+            }
+        }
+    }];
+}
 
-
+#pragma mark KVO
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"capturingStillImage"]) {
+        BOOL isCapturingStillImage = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+        if ( isCapturingStillImage ) {
+            // do flash bulb like animation
+            _flashView = [[UIView alloc] initWithFrame:[_recorder.previewView frame]];
+            [_flashView setBackgroundColor:[UIColor blackColor]];
+            [_flashView setAlpha:0.f];
+            [[[self view] window] addSubview:_flashView];
+            
+            [UIView animateWithDuration:.4f
+                             animations:^{
+                                 [_flashView setAlpha:1.f];
+                             }
+             ];
+        }
+        else {
+            [UIView animateWithDuration:.4f
+                             animations:^{
+                                 [_flashView setAlpha:0.f];
+                             }
+                             completion:^(BOOL finished){
+                                 [_flashView removeFromSuperview];
+                                 _flashView = nil;
+                             }
+             ];
+        }
+    }
+}
 
 
 #pragma mark PanoramaStitcherProtocol

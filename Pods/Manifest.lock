@@ -1,0 +1,13 @@
+PODS:
+  - OpenCV (2.4.9.1)
+  - SCRecorder (2.1.4)
+
+DEPENDENCIES:
+  - OpenCV
+  - SCRecorder
+
+SPEC CHECKSUMS:
+  OpenCV: 4190ad68e79e1b9ae7ac53d749e96e8c05041e45
+  SCRecorder: 9184abb2cdf3421a6bdcdfd4e0b9cbb9cb859438
+
+COCOAPODS: 0.34.4

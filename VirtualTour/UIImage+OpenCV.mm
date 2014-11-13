@@ -69,4 +69,20 @@
     return image;
 }
 
+//- (UIImage *)imageScaledToScale:(CGFloat)scale
+//{
+//    return [self imageScaledToScale:scale withInterpolationQuality:kCGInterpolationHigh];
+//}
+//
+//- (UIImage *)imageScaledToScale:(CGFloat)scale withInterpolationQuality:(CGInterpolationQuality)quality
+//{
+//    UIGraphicsBeginImageContextWithOptions(self.size, YES, scale);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextSetInterpolationQuality(context, quality);
+//    [self drawInRect:CGRectMake(0, 0, self.size.width, self.size.height)];
+//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return newImage;
+//}
+
 @end

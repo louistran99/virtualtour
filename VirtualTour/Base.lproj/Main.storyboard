@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6249" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -22,14 +22,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dbx-wL-G2N" userLabel="liveVideo">
-                                <rect key="frame" x="170" y="150" width="260" height="300"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="JD2-9T-Sca"/>
-                                    <constraint firstAttribute="width" constant="260" id="wwe-m4-O96"/>
-                                </constraints>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tap to start" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZIt-FC-Ys0">
                                 <rect key="frame" x="222" y="227" width="157" height="40"/>
                                 <constraints>
@@ -43,7 +35,7 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tiN-Km-fSo">
                                 <rect key="frame" x="282" y="281" width="37" height="37"/>
                             </activityIndicatorView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yi8-tM-N6C" userLabel="debugView" customClass="VTRImageDebugView">
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yi8-tM-N6C" userLabel="debugView" customClass="VTRImageDebugView">
                                 <rect key="frame" x="140" y="450" width="320" height="150"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pitch(x)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xO5-lP-cZn">
@@ -106,8 +98,8 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G5u-MH-9xF">
-                                        <rect key="frame" x="236" y="64" width="70" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G5u-MH-9xF">
+                                        <rect key="frame" x="236" y="64" width="78" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="PPU-l0-X29"/>
                                             <constraint firstAttribute="width" constant="78" id="trE-Kh-RWn"/>
@@ -143,16 +135,24 @@
                                     <outlet property="yawLabel" destination="AWd-6n-Ylz" id="TBT-kA-juE"/>
                                 </connections>
                             </view>
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Dbx-wL-G2N" userLabel="liveVideo">
+                                <rect key="frame" x="160" y="150" width="280" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="U1Y-JZ-Gey"/>
+                                    <constraint firstAttribute="height" constant="300" id="Yks-Vd-fPL"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fR3-et-eew" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="6WS-KY-ACV"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Yi8-tM-N6C" secondAttribute="bottom" id="92g-F8-FRZ"/>
                             <constraint firstItem="ZIt-FC-Ys0" firstAttribute="centerY" secondItem="fR3-et-eew" secondAttribute="centerY" constant="-53" id="9LG-cV-2iJ"/>
+                            <constraint firstAttribute="centerX" secondItem="Dbx-wL-G2N" secondAttribute="centerX" id="ERJ-Gl-Ir6"/>
                             <constraint firstAttribute="centerY" secondItem="tiN-Km-fSo" secondAttribute="centerY" constant="0.5" id="Eae-xV-dm3"/>
+                            <constraint firstAttribute="centerY" secondItem="Dbx-wL-G2N" secondAttribute="centerY" id="Ij7-AS-dQr"/>
                             <constraint firstItem="ZIt-FC-Ys0" firstAttribute="centerX" secondItem="fR3-et-eew" secondAttribute="centerX" id="IqW-PJ-b1V"/>
-                            <constraint firstAttribute="centerX" secondItem="Dbx-wL-G2N" secondAttribute="centerX" id="SIb-z9-LSf"/>
-                            <constraint firstAttribute="centerY" secondItem="Dbx-wL-G2N" secondAttribute="centerY" id="YKR-bd-NNX"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="fR3-et-eew" secondAttribute="bottom" id="jmy-XR-uad"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fR3-et-eew" secondAttribute="trailing" constant="-16" id="kZz-17-8EP"/>
                             <constraint firstItem="fR3-et-eew" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="pQl-R6-Imn"/>
