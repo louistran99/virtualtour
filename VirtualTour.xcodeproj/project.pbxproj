@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		24B9E2546203A45EDDB5E3B6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C327D1390520892038B02CCB /* libPods.a */; };
-		D028E68C1A149F9600CB48E7 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = D028E68B1A149F9600CB48E7 /* UIImage+Scale.m */; };
 		D03F8CD41A14225C007D2136 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F8CD31A14225C007D2136 /* NSString+Extras.m */; };
 		D070CF321A129BEC00AEFD8A /* ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D070CF311A129BEC00AEFD8A /* ImageGenerator.m */; };
 		D070CF3C1A12BBE100AEFD8A /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = D070CF3B1A12BBE100AEFD8A /* UIImage+OpenCV.mm */; };
@@ -49,8 +48,6 @@
 /* Begin PBXFileReference section */
 		1FB8DC7A3B414710B5B8657B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C327D1390520892038B02CCB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D028E68A1A149F9600CB48E7 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
-		D028E68B1A149F9600CB48E7 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		D03F8CD21A14225C007D2136 /* NSString+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extras.h"; sourceTree = "<group>"; };
 		D03F8CD31A14225C007D2136 /* NSString+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extras.m"; sourceTree = "<group>"; };
 		D070CF2D1A12989100AEFD8A /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -147,8 +144,6 @@
 				D070CF3B1A12BBE100AEFD8A /* UIImage+OpenCV.mm */,
 				D03F8CD21A14225C007D2136 /* NSString+Extras.h */,
 				D03F8CD31A14225C007D2136 /* NSString+Extras.m */,
-				D028E68A1A149F9600CB48E7 /* UIImage+Scale.h */,
-				D028E68B1A149F9600CB48E7 /* UIImage+Scale.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -291,11 +286,11 @@
 				TargetAttributes = {
 					D076FD7B1A11985800E9E148 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = VM45C34Q3B;
+						DevelopmentTeam = LYWVWF962T;
 					};
 					D076FD941A11985900E9E148 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = VM45C34Q3B;
+						DevelopmentTeam = LYWVWF962T;
 						TestTargetID = D076FD7B1A11985800E9E148;
 					};
 				};
@@ -395,7 +390,6 @@
 				D076FD851A11985900E9E148 /* AppDelegate.m in Sources */,
 				D070CF3F1A12C1EF00AEFD8A /* ResultVC.m in Sources */,
 				D03F8CD41A14225C007D2136 /* NSString+Extras.m in Sources */,
-				D028E68C1A149F9600CB48E7 /* UIImage+Scale.m in Sources */,
 				D070CF3C1A12BBE100AEFD8A /* UIImage+OpenCV.mm in Sources */,
 				D076FD821A11985900E9E148 /* main.m in Sources */,
 				D0EDB2381A13D6D800B730A0 /* VTRImageDebugView.m in Sources */,

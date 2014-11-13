@@ -19,3 +19,9 @@
 #define COCOAPODS_VERSION_MINOR_SCRecorder 1
 #define COCOAPODS_VERSION_PATCH_SCRecorder 4
 
+// UIImage-Categories
+#define COCOAPODS_POD_AVAILABLE_UIImage_Categories
+#define COCOAPODS_VERSION_MAJOR_UIImage_Categories 0
+#define COCOAPODS_VERSION_MINOR_UIImage_Categories 0
+#define COCOAPODS_VERSION_PATCH_UIImage_Categories 1
+

@@ -14,7 +14,8 @@
 #import "VTRImageDebugView.h"
 
 #import "NSString+Extras.h"
-#import "UIImage+Scale.h"
+#import "UIImage+Resize.h"
+#import "UIImage+FixRotation.h"
 
 #define radiansToDegrees(x) (180/M_PI)*x
 
@@ -202,13 +203,16 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
 #pragma take picture
 
 - (void) takePicture:(id)sender {
+    
+    __block NSMutableArray *_images = [[NSMutableArray alloc] init];
     [_recorder capturePhoto:^(NSError *error, UIImage *image) {
         if (!error) {
             if (image) {
                 CGFloat scale = 1024.0/image.size.height;
                 CGSize newSize = CGSizeMake(scale*image.size.width, scale*image.size.height);
-                image = [image resizeImage:image newSize:newSize];
                 
+                image = [image fixOrientation];
+                image = [image resizedImage:newSize interpolationQuality:kCGInterpolationHigh];
                 
                 _imageView.image = image;
                 _imageView.alpha = 1.0f;

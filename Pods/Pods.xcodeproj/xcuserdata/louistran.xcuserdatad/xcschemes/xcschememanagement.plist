@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-UIImage-Categories.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>49BDF8679507DB162DB1F431</key>
+		<key>01C2A6125B29F0DBA6B271D2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>661E082A4AE28315884DC7C8</key>
+		<key>071BB30780C462DC089157D9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>887E595980A5C9FB8C411722</key>
+		<key>B79BDEB3EF949B15FA1AA78F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C5E21CC635355A8CEAD22749</key>
 		<dict>
 			<key>primary</key>
 			<true/>

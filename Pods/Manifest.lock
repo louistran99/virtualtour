@@ -1,13 +1,16 @@
 PODS:
   - OpenCV (2.4.9.1)
   - SCRecorder (2.1.4)
+  - UIImage-Categories (0.0.1)
 
 DEPENDENCIES:
   - OpenCV
   - SCRecorder
+  - UIImage-Categories
 
 SPEC CHECKSUMS:
   OpenCV: 4190ad68e79e1b9ae7ac53d749e96e8c05041e45
   SCRecorder: 9184abb2cdf3421a6bdcdfd4e0b9cbb9cb859438
+  UIImage-Categories: 99245612a4725173db4f0a9ed8ba9dbe2a1e0b4f
 
 COCOAPODS: 0.34.4
