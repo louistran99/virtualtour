@@ -26,8 +26,11 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
     
     // motion related ivars
     CMMotionManager *_motionManager;
-    CGFloat _referenceYaw;
-    CGFloat _currentYaw;
+
+    
+    CADisplayLink *_timer;
+    
+    CGFloat _myYaw, _myPitch, _myRoll;
 }
 
 @property (nonatomic,strong) CMAttitude *referenceAttitude;
@@ -51,13 +54,17 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
     [self setupSCRecorder];
     
     // set up core motion
-    [self setupCoreMotion];
+    [self setUpCoreMotionPulling];
+    
+    [self setUpDisplayLinkTimer];
+    
+    [self performSelector:@selector(updateReference) withObject:nil afterDelay:3.0];
     
 }
 
 -(void) viewDidDisappear:(BOOL)animated  {
     [super viewDidDisappear:animated];
-    [self teardownCoreMotion];
+    [self stopMotionUpdate];
 }
 
 
@@ -67,22 +74,66 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
 }
 
 
--(void) updateReferenceYaw:(CGFloat) yaw {
-    _referenceYaw = yaw;
-    [self.debugView.referenceYaw setText:[NSString stringWithFormat:@"%1.2f",radiansToDegrees(_referenceYaw)]];
+-(void) updateReference {
+    if (_referenceAttitude == nil) {
+        _referenceAttitude = _motionManager.deviceMotion.attitude;
+        [self.debugView.referenceYaw setText:[NSString stringWithFormat:@"%1.2f",_referenceAttitude.yaw]];
+    }
+}
+
+-(void) setUpDisplayLinkTimer {
+    _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMotion)];
+    [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 
--(void) updateReference:(CMAttitude*) attitude {
-    _referenceAttitude = attitude;
 
+-(void) updateMotion {
+//    CMQuaternion quat = _motionManager.deviceMotion.attitude.quaternion;
+//    float myRoll = radiansToDegrees(atan2(2*(quat.y*quat.w - quat.x*quat.z), 1 - 2*quat.y*quat.y - 2*quat.z*quat.z)) ;
+//    float myPitch = radiansToDegrees(atan2(2*(quat.x*quat.w + quat.y*quat.z), 1 - 2*quat.x*quat.x - 2*quat.z*quat.z));
+//    float myYaw = radiansToDegrees(asin(2*quat.x*quat.y + 2*quat.w*quat.z));
+//    
+//    // kalman filtering
+//    static float q = 0.1;   // process noise
+//    static float r = 0.1;   // sensor noise
+//    static float p = 0.1;   // estimated error
+//    static float k = 0.5;   // kalman filter gain
+//    
+//    float x = myYaw;
+//    p = p + q;
+//    k = p / (p + r);
+//    x = x + k*(myYaw - x);
+//    p = (1 - k)*p;
+//    myYaw = x;
+//    
+//    [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",myPitch]];
+//    [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",myRoll]];
+//    [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",myYaw]];
+
+    self.currentAttitude = _motionManager.deviceMotion.attitude;
+    if (self.referenceAttitude) {
+        [self.currentAttitude multiplyByInverseOfAttitude:self.referenceAttitude];
+    }
+    [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
+    [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
+    [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
+    
 }
 
+-(void) stopMotionUpdate {
+    [_timer invalidate];
+    [self teardownCoreMotion];
+}
 
 -(void) startStitching:(UIGestureRecognizer*) gesture {
     if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
-        _referenceAttitude = _motionManager.deviceMotion.attitude;
-        [self.debugView.referenceYaw setText:[NSString stringWithFormat:@"%1.2f",radiansToDegrees(_referenceAttitude.yaw)]];
+        [self.currentAttitude multiplyByInverseOfAttitude:self.referenceAttitude];
+        [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
+        [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
+        [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
+        
+        [_timer invalidate];
 //        [_activityIndicatorView startAnimating];
 //        dispatch_async(_processingQueue, ^{
 //            PanoramaStitcher *sticher = [[PanoramaStitcher alloc] init];
@@ -92,6 +143,21 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
         
     }
 }
+
+-(void) setUpCoreMotionPulling {
+    _motionManager = [[CMMotionManager alloc] init];
+    if (_motionManager) {
+        _motionManager.deviceMotionUpdateInterval = 1.0f / 10.0f;
+        if ([CMMotionManager availableAttitudeReferenceFrames] & CMAttitudeReferenceFrameXArbitraryCorrectedZVertical) {
+            [_motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical];
+        } else if ([CMMotionManager availableAttitudeReferenceFrames] & CMAttitudeReferenceFrameXArbitraryZVertical) {
+            [_motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
+        }
+        [_motionManager startDeviceMotionUpdates];
+    }
+    
+}
+
 
 #pragma mark set up core motion
 -(void) setupCoreMotion {
@@ -108,9 +174,9 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
                 NSLog(@"%@",[error description]);
             } else {
                 CMQuaternion quat = motion.attitude.quaternion;
-                float myRoll = radiansToDegrees(atan2(2*(quat.y*quat.w - quat.x*quat.z), 1 - 2*quat.y*quat.y - 2*quat.z*quat.z)) ;
-                float myPitch = radiansToDegrees(atan2(2*(quat.x*quat.w + quat.y*quat.z), 1 - 2*quat.x*quat.x - 2*quat.z*quat.z));
-                float myYaw = radiansToDegrees(asin(2*quat.x*quat.y + 2*quat.w*quat.z));
+                _myRoll = radiansToDegrees(atan2(2*(quat.y*quat.w - quat.x*quat.z), 1 - 2*quat.y*quat.y - 2*quat.z*quat.z)) ;
+                _myPitch = radiansToDegrees(atan2(2*(quat.x*quat.w + quat.y*quat.z), 1 - 2*quat.x*quat.x - 2*quat.z*quat.z));
+                _myYaw = radiansToDegrees(asin(2*quat.x*quat.y + 2*quat.w*quat.z));
                 
                 // kalman filtering
                 static float q = 0.1;   // process noise
@@ -118,20 +184,19 @@ static CGFloat const kVTrotationThreshold = 25.0 * 2* M_PI / 180;
                 static float p = 0.1;   // estimated error
                 static float k = 0.5;   // kalman filter gain
                 
-                float x = myYaw;
+                float x = _myYaw;
                 p = p + q;
                 k = p / (p + r);
-                x = x + k*(myYaw - x);
+                x = x + k*(_myYaw - x);
                 p = (1 - k)*p;
-                myYaw = x;
-                [weakSelf.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",myPitch]];
-                [weakSelf.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",myRoll]];
-                [weakSelf.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",myYaw]];
+                _myYaw = x;
+                [weakSelf.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",_myPitch]];
+                [weakSelf.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",_myRoll]];
+                [weakSelf.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",_myYaw]];
                 
                 
                 if (weakSelf.referenceAttitude == nil) {
                     weakSelf.referenceAttitude = motion.attitude;
-                    [self updateReference:motion.attitude];
                 }
                 
             }
