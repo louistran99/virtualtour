@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PanoramaStitcher.h"
 
+@class VTRImageDebugView;
+
 @interface ViewController : UIViewController <PanoramaStitcherProtocol>
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) IBOutlet UIView *preview;
+@property (strong, nonatomic) IBOutlet VTRImageDebugView *debugView;
 
 
 @end
