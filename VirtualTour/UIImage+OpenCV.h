@@ -13,6 +13,6 @@
 
 + (cv::Mat)cvMatWithImage:(UIImage *)image;
 + (UIImage *)imageWithCVMat:(const cv::Mat&)cvMat;
-
+- (cv::Mat)CVMat3;
 
 @end

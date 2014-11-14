@@ -17,6 +17,11 @@
 #import "UIImage+Resize.h"
 #import "UIImage+FixRotation.h"
 
+#import "DirectoryUtils.h"
+#import "FileUtils.h"
+
+
+
 #define radiansToDegrees(x) (180/M_PI)*x
 
 static double const kVTrotationThreshold = (25.0 * M_PI / 180);
@@ -25,7 +30,6 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
 @interface ViewController () <SCRecorderDelegate> {
     dispatch_queue_t _processingQueue;
     SCRecorder *_recorder;
-    
 
     // for animation
     UIView *_flashView;
@@ -39,6 +43,8 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
 
 @property (nonatomic,strong) CMAttitude *referenceAttitude;
 @property (nonatomic,readwrite) CMAttitude *currentAttitude;
+@property (nonatomic) NSMutableArray *images;
+@property (nonatomic) NSMutableArray *files;
 
 @end
 
@@ -48,7 +54,7 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(startStitching:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(initialTap:)];
     [self.view addGestureRecognizer:tapGesture];
     
     // create background queue
@@ -64,6 +70,8 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
     
     [self performSelector:@selector(updateReference) withObject:nil afterDelay:3.0];
     
+    _images = [[NSMutableArray alloc] init];
+    _files = [[NSMutableArray alloc] init];
 }
 
 -(void) viewDidDisappear:(BOOL)animated  {
@@ -99,22 +107,42 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
     [self teardownCoreMotion];
 }
 
--(void) startStitching:(UIGestureRecognizer*) gesture {
+
+-(void) initialTap:(UIGestureRecognizer*) gesture {
     if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
-        [self.currentAttitude multiplyByInverseOfAttitude:self.referenceAttitude];
-        [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
-        [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
-        [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
-        
-        [_timer invalidate];
-//        [_activityIndicatorView startAnimating];
-//        dispatch_async(_processingQueue, ^{
-//            PanoramaStitcher *sticher = [[PanoramaStitcher alloc] init];
-//            sticher.delegate = self;
-//            [sticher process];
-//        });
     }
 }
+
+#pragma mark save images to disk
+-(void) saveImageToDisk:(UIImage*) image {
+    NSString *path = [DirectoryUtils getDocumentFolder];
+    NSString *fileName = [NSString stringWithFormat:@"/%d.jpg",(int)_images.count];
+    NSString *pathAndName = [path stringByAppendingString:fileName];
+    if ([FileUtils fileExists:pathAndName]) {
+        [FileUtils deleteFile:pathAndName];
+    }
+    [_files addObject:pathAndName];
+    [UIImageJPEGRepresentation(image, 1.0f) writeToFile:pathAndName atomically:YES];
+}
+
+
+#pragma mark Processing
+
+-(void) startStitching:(UIGestureRecognizer*) gesture {
+    
+    [self stopMotionUpdate];
+    [self teardownSCRecorder];
+
+        [_activityIndicatorView startAnimating];
+        dispatch_async(_processingQueue, ^{
+            PanoramaStitcher *sticher = [[PanoramaStitcher alloc] init];
+            sticher.delegate = self;
+            sticher.images = self.images;
+            sticher.files = self.files;
+            [sticher process];
+        });
+}
+
 
 
 
@@ -146,7 +174,7 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
         [self.currentAttitude multiplyByInverseOfAttitude:self.referenceAttitude];
     }
     
-    if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold)) {
+    if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold) ) {
         [self updateReference];
         [self takePicture:nil];
     }
@@ -158,7 +186,7 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
 }
 
 
-#pragma mark set up video
+#pragma mark set up & tear down video
 -(void) setupSCRecorder {
     _recorder = [SCRecorder recorder];
     _recorder.sessionPreset = AVCaptureSessionPresetPhoto;// AVCaptureSessionPreset1280x720;
@@ -196,15 +224,20 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
     }
 }
 
-#pragma mark tear down video
-
+-(void) teardownSCRecorder {
+    [_recorder endRunningSession];
+    [_recorder.photoOutput removeObserver:self forKeyPath:@"capturingStillImage" context:nil];
+}
 
 
 #pragma take picture
 
 - (void) takePicture:(id)sender {
     
-    __block NSMutableArray *_images = [[NSMutableArray alloc] init];
+    __block typeof(self) weakSelf = self;
+    
+    
+    
     [_recorder capturePhoto:^(NSError *error, UIImage *image) {
         if (!error) {
             if (image) {
@@ -217,8 +250,13 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
                 _imageView.image = image;
                 _imageView.alpha = 1.0f;
                 _imageView.contentMode = UIViewContentModeScaleAspectFit;
+                [weakSelf.images addObject:image];
                 
-                NSLog(@"w:%1.0f\t h:%1.0f",[image size].width, [image size].height);
+                NSLog(@"number of images:%d",(int)weakSelf.images.count );
+                [weakSelf saveImageToDisk:image];
+                if (weakSelf.images.count == 2) {
+                    [weakSelf startStitching:nil];
+                }
             }
         }
     }];
@@ -264,6 +302,7 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
         _imageView.image = panorama;
         _imageView.alpha = 1.0f;
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.view bringSubviewToFront:_imageView];
     });
 
     

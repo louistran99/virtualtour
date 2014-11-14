@@ -20,6 +20,8 @@
 
 @interface PanoramaStitcher : NSObject
 @property (weak) id <PanoramaStitcherProtocol> delegate;
+@property (nonatomic) NSMutableArray *images;
+@property (nonatomic) NSMutableArray *files;
 -(void) process;
 
 @end

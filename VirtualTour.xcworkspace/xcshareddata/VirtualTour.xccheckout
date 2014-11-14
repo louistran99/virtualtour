@@ -10,6 +10,8 @@
 	<string>VirtualTour</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>2D2893019539E210BF19911471053966C3EE3813</key>
+		<string>https://github.com/rentjuice/postlets-ios.git</string>
 		<key>5890B2DBA7FF20AD8DD5949A305CB9FC05B1DFED</key>
 		<string>https://github.com/louistran99/virtualtour.git</string>
 	</dict>
@@ -17,6 +19,8 @@
 	<string>VirtualTour.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>2D2893019539E210BF19911471053966C3EE3813</key>
+		<string>../../../postlet/postlets-ios</string>
 		<key>5890B2DBA7FF20AD8DD5949A305CB9FC05B1DFED</key>
 		<string>..</string>
 	</dict>
@@ -28,6 +32,14 @@
 	<string>5890B2DBA7FF20AD8DD5949A305CB9FC05B1DFED</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2D2893019539E210BF19911471053966C3EE3813</string>
+			<key>IDESourceControlWCCName</key>
+			<string>postlets-ios</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

@@ -36,12 +36,27 @@ using namespace cv;
     vector<Mat> vImg;
     Mat rImg;
     
-    NSMutableArray *files = [self testFiles];
+    if (_images == nil) {
+        _images = [self testFiles];
+        for (NSString *file in _images) {
+            const char *filename = [file UTF8String];
+            vImg.push_back(imread(filename));
+        }
+        
     
-    for (NSString *file in files) {
-        const char *filename = [file UTF8String];
-        vImg.push_back(imread(filename));
+    } else {
+//        for (UIImage *image in _images) {
+//            Mat imageToProcess = [image CVMat3];//- (cv::Mat)CVMat3
+//            vImg.push_back(imageToProcess);
+//        }
+        for (int i=0; i<_files.count; i++) {
+            NSString *file = [_files objectAtIndex:i];
+            const char *filename = [file UTF8String];
+            vImg.push_back(imread(filename));
+        }
+    
     }
+    
     
     Stitcher stitcher = Stitcher::createDefault();
     stitcher.stitch(vImg, rImg);
@@ -56,7 +71,7 @@ using namespace cv;
 
 
 -(NSMutableArray*) testFiles {
-    NSArray *files = @[@"/IMG_0177.jpg",@"/IMG_0178.jpg",@"/IMG_0179.jpg"];
+    NSArray *files = @[@"/IMG_0177.jpg",@"/IMG_0178.jpg"];
     NSMutableArray *fullPath = [[NSMutableArray alloc] initWithCapacity:files.count];
     
     NSString *mainBundlePath = [[NSBundle mainBundle] resourcePath];
