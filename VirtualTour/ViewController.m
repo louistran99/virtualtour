@@ -24,7 +24,7 @@
 
 #define radiansToDegrees(x) (180/M_PI)*x
 
-static double const kVTrotationThreshold = (25.0 * M_PI / 180);
+static double const kVTrotationThreshold = (20.0 * M_PI / 180);
 
 
 @interface ViewController () <SCRecorderDelegate> {
@@ -39,6 +39,7 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
     CMMotionManager *_motionManager;
     CADisplayLink *_timer;
     
+    //
 }
 
 @property (nonatomic,strong) CMAttitude *referenceAttitude;
@@ -175,8 +176,11 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
     }
     
     if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold) ) {
-        [self updateReference];
-        [self takePicture:nil];
+//        [self updateReference];
+        if (_recorder.focusSupported) {
+            [_recorder focusCenter];
+        }
+//        [self takePicture:nil];
     }
 //    NSLog(@"angle threshold:%1.2f \t current angle:%1.2f",sinf(kVTrotationThreshold),sin(self.currentAttitude.roll));
     [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
@@ -215,6 +219,10 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
     if (_recorder.photoOutput) {
         [_recorder.photoOutput addObserver:self forKeyPath:@"capturingStillImage" options:NSKeyValueObservingOptionNew context:nil];
     }
+    
+    if (_recorder.videoDevice) {
+        [_recorder.videoDevice addObserver:self forKeyPath:@"adjustingFocus" options:NSKeyValueObservingOptionNew context:nil];
+    }
 }
 
 -(void) setUpStillCapture {
@@ -227,6 +235,7 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
 -(void) teardownSCRecorder {
     [_recorder endRunningSession];
     [_recorder.photoOutput removeObserver:self forKeyPath:@"capturingStillImage" context:nil];
+    [_recorder.videoDevice removeObserver:self forKeyPath:@"adjustingFocus" context:nil];
 }
 
 
@@ -235,9 +244,6 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
 - (void) takePicture:(id)sender {
     
     __block typeof(self) weakSelf = self;
-    
-    
-    
     [_recorder capturePhoto:^(NSError *error, UIImage *image) {
         if (!error) {
             if (image) {
@@ -252,9 +258,9 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
                 _imageView.contentMode = UIViewContentModeScaleAspectFit;
                 [weakSelf.images addObject:image];
                 
-                NSLog(@"number of images:%d",(int)weakSelf.images.count );
-                [weakSelf saveImageToDisk:image];
-                if (weakSelf.images.count == 2) {
+//                NSLog(@"number of images:%d",(int)weakSelf.images.count );
+//                [weakSelf saveImageToDisk:image];
+                if (weakSelf.images.count == 3) {
                     [weakSelf startStitching:nil];
                 }
             }
@@ -289,6 +295,25 @@ static double const kVTrotationThreshold = (25.0 * M_PI / 180);
                                  _flashView = nil;
                              }
              ];
+        }
+    }
+    
+    static BOOL focusing = NO;
+    static BOOL finishedFocus = NO;
+    if( [keyPath isEqualToString:@"adjustingFocus"] ){
+        BOOL adjustingFocus = [ [change objectForKey:NSKeyValueChangeNewKey] isEqualToNumber:[NSNumber numberWithInt:1]];
+        if (adjustingFocus) {
+            focusing=true;
+        } else {
+            if (focusing) {
+                focusing = false;
+                finishedFocus = true;
+                if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold) ) {
+                    NSLog(@"take picture");
+                    [self updateReference];
+                    [self takePicture:nil];
+                }
+            }
         }
     }
 }

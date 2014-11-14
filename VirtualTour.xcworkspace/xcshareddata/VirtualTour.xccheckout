@@ -20,7 +20,7 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>2D2893019539E210BF19911471053966C3EE3813</key>
-		<string>../../../postlet/postlets-ios</string>
+		<string>../../postlet/postlets-ios</string>
 		<key>5890B2DBA7FF20AD8DD5949A305CB9FC05B1DFED</key>
 		<string>..</string>
 	</dict>

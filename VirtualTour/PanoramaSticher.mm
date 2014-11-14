@@ -45,15 +45,15 @@ using namespace cv;
         
     
     } else {
-//        for (UIImage *image in _images) {
-//            Mat imageToProcess = [image CVMat3];//- (cv::Mat)CVMat3
-//            vImg.push_back(imageToProcess);
-//        }
-        for (int i=0; i<_files.count; i++) {
-            NSString *file = [_files objectAtIndex:i];
-            const char *filename = [file UTF8String];
-            vImg.push_back(imread(filename));
+        for (UIImage *image in _images) {
+            Mat imageToProcess = [image CVMat3];//- (cv::Mat)CVMat3
+            vImg.push_back(imageToProcess);
         }
+//        for (int i=0; i<_files.count; i++) {
+//            NSString *file = [_files objectAtIndex:i];
+//            const char *filename = [file UTF8String];
+//            vImg.push_back(imread(filename));
+//        }
     
     }
     
