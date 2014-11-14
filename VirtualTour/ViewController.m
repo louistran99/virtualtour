@@ -69,7 +69,7 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
     
     [self setUpDisplayLinkTimer];
     
-    [self performSelector:@selector(updateReference) withObject:nil afterDelay:3.0];
+//    [self performSelector:@selector(updateReference) withObject:nil afterDelay:3.0];
     
     _images = [[NSMutableArray alloc] init];
     _files = [[NSMutableArray alloc] init];
@@ -111,6 +111,10 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
 
 -(void) initialTap:(UIGestureRecognizer*) gesture {
     if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
+        [self updateReference];
+        self.tapToStartView.hidden = YES;
+        [self.view removeGestureRecognizer:gesture];
+        [self takePicture:nil];
     }
 }
 
@@ -176,11 +180,9 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
     }
     
     if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold) ) {
-//        [self updateReference];
         if (_recorder.focusSupported) {
             [_recorder focusCenter];
         }
-//        [self takePicture:nil];
     }
 //    NSLog(@"angle threshold:%1.2f \t current angle:%1.2f",sinf(kVTrotationThreshold),sin(self.currentAttitude.roll));
     [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
@@ -195,11 +197,9 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
     _recorder = [SCRecorder recorder];
     _recorder.sessionPreset = AVCaptureSessionPresetPhoto;// AVCaptureSessionPreset1280x720;
     _recorder.audioEnabled = NO;
-//    _recorder.delegate = self;
     _recorder.autoSetVideoOrientation = NO;
     _recorder.photoEnabled = YES;               // enable capturing still photo
     _recorder.previewView = _preview;
-    //    NSLog(@"setupSCRecorder -- width:%1.1f\t height :%1.1f",_preview.frame.size.width,_preview.frame.size.height);
     
     [_recorder openSession:^(NSError *sessionError, NSError *audioError, NSError *videoError, NSError *photoError) {
         NSLog(@"==== Opened session ====");
@@ -211,7 +211,7 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
         NSLog(@"=======================");
         [_recorder startRunningSession];
         [self setupRecordingSession];
-        [self setUpStillCapture];
+//        [self setUpStillCapture];
     }];
 }
 
@@ -225,12 +225,12 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
     }
 }
 
--(void) setUpStillCapture {
-    NSArray *pixelFormats = [_recorder.photoOutput availableImageDataCVPixelFormatTypes];
-    for (NSString *format in pixelFormats) {
-        NSLog(@"%@",format);
-    }
-}
+//-(void) setUpStillCapture {
+//    NSArray *pixelFormats = [_recorder.photoOutput availableImageDataCVPixelFormatTypes];
+//    for (NSString *format in pixelFormats) {
+//        NSLog(@"%@",format);
+//    }
+//}
 
 -(void) teardownSCRecorder {
     [_recorder endRunningSession];

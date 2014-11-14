@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIView *preview;
 @property (strong, nonatomic) IBOutlet VTRImageDebugView *debugView;
 
+@property (strong, nonatomic) IBOutlet UIView *tapToStartView;
 
 @end
 

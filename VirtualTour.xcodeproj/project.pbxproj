@@ -296,11 +296,11 @@
 				TargetAttributes = {
 					D076FD7B1A11985800E9E148 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = VM45C34Q3B;
+						DevelopmentTeam = 3XSXFG69RG;
 					};
 					D076FD941A11985900E9E148 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = VM45C34Q3B;
+						DevelopmentTeam = 3XSXFG69RG;
 						TestTargetID = D076FD7B1A11985800E9E148;
 					};
 				};

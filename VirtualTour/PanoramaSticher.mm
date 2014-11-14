@@ -42,8 +42,6 @@ using namespace cv;
             const char *filename = [file UTF8String];
             vImg.push_back(imread(filename));
         }
-        
-    
     } else {
         for (UIImage *image in _images) {
             Mat imageToProcess = [image CVMat3];//- (cv::Mat)CVMat3
@@ -66,7 +64,6 @@ using namespace cv;
     if ([self.delegate respondsToSelector:@selector(PanoramaStitchingDidFinish:)]) {
         [self.delegate PanoramaStitchingDidFinish:outputImage];
     }
-    
 }
 
 
