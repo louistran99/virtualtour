@@ -19,6 +19,7 @@
 
 #import "DirectoryUtils.h"
 #import "FileUtils.h"
+#import "TranslateFunctions.h"
 
 
 
@@ -149,8 +150,6 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
 }
 
 
-
-
 #pragma mark core motion
 
 -(void) teardownCoreMotion {
@@ -184,12 +183,14 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
             [_recorder focusCenter];
         }
     }
+        
 //    NSLog(@"angle threshold:%1.2f \t current angle:%1.2f",sinf(kVTrotationThreshold),sin(self.currentAttitude.roll));
     [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
     [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
     [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
-    
 }
+
+
 
 
 #pragma mark set up & tear down video
@@ -224,13 +225,6 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
         [_recorder.videoDevice addObserver:self forKeyPath:@"adjustingFocus" options:NSKeyValueObservingOptionNew context:nil];
     }
 }
-
-//-(void) setUpStillCapture {
-//    NSArray *pixelFormats = [_recorder.photoOutput availableImageDataCVPixelFormatTypes];
-//    for (NSString *format in pixelFormats) {
-//        NSLog(@"%@",format);
-//    }
-//}
 
 -(void) teardownSCRecorder {
     [_recorder endRunningSession];

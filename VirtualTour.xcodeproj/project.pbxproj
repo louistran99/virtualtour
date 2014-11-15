@@ -34,6 +34,7 @@
 		D076FDC11A11A3C900E9E148 /* PanoramaSticher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */; };
 		D0CE25941A157EF00014C2B5 /* DirectoryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE25931A157EF00014C2B5 /* DirectoryUtils.m */; };
 		D0CE25971A157EFB0014C2B5 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE25961A157EFB0014C2B5 /* FileUtils.m */; };
+		D0E0702E1A16BB4200CEFE71 /* TranslateFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E0702D1A16BB4200CEFE71 /* TranslateFunctions.m */; };
 		D0EDB2381A13D6D800B730A0 /* VTRImageDebugView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0EDB2371A13D6D800B730A0 /* VTRImageDebugView.m */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,8 @@
 		D0CE25931A157EF00014C2B5 /* DirectoryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectoryUtils.m; sourceTree = "<group>"; };
 		D0CE25951A157EFB0014C2B5 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		D0CE25961A157EFB0014C2B5 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
+		D0E0702C1A16BB4200CEFE71 /* TranslateFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranslateFunctions.h; sourceTree = "<group>"; };
+		D0E0702D1A16BB4200CEFE71 /* TranslateFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TranslateFunctions.m; sourceTree = "<group>"; };
 		D0EDB2361A13D6D800B730A0 /* VTRImageDebugView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTRImageDebugView.h; sourceTree = "<group>"; };
 		D0EDB2371A13D6D800B730A0 /* VTRImageDebugView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTRImageDebugView.m; sourceTree = "<group>"; };
 		D9852D8DE31A2E30E49BFAFE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -154,6 +157,8 @@
 				D070CF3B1A12BBE100AEFD8A /* UIImage+OpenCV.mm */,
 				D03F8CD21A14225C007D2136 /* NSString+Extras.h */,
 				D03F8CD31A14225C007D2136 /* NSString+Extras.m */,
+				D0E0702C1A16BB4200CEFE71 /* TranslateFunctions.h */,
+				D0E0702D1A16BB4200CEFE71 /* TranslateFunctions.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -404,6 +409,7 @@
 				D070CF3C1A12BBE100AEFD8A /* UIImage+OpenCV.mm in Sources */,
 				D076FD821A11985900E9E148 /* main.m in Sources */,
 				D0EDB2381A13D6D800B730A0 /* VTRImageDebugView.m in Sources */,
+				D0E0702E1A16BB4200CEFE71 /* TranslateFunctions.m in Sources */,
 				D0CE25941A157EF00014C2B5 /* DirectoryUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
