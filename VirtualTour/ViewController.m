@@ -26,7 +26,7 @@
 #define radiansToDegrees(x) (180/M_PI)*x
 
 static double const kVTrotationThreshold = (20.0 * M_PI / 180);
-
+static CGFloat const kVTradius = 30.0f;
 
 @interface ViewController () <SCRecorderDelegate> {
     dispatch_queue_t _processingQueue;
@@ -70,11 +70,13 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
     
     [self setUpDisplayLinkTimer];
     
-//    [self performSelector:@selector(updateReference) withObject:nil afterDelay:3.0];
+    // set up movingDot view
+    [self setUpMovingDot];
     
     _images = [[NSMutableArray alloc] init];
     _files = [[NSMutableArray alloc] init];
 }
+
 
 -(void) viewDidDisappear:(BOOL)animated  {
     [super viewDidDisappear:animated];
@@ -184,18 +186,16 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
         }
     }
     
-    
-    
     CGFloat filteredRoll = [TranslateFunctions kalmanFilterRoll:self.currentAttitude.roll];
     CGFloat dX = [TranslateFunctions getDx:filteredRoll slope:1/(2*kVTrotationThreshold) withIntercept:1.0f];
     
     CGFloat filteredPitch = [TranslateFunctions kalmanFilterPitch:self.currentAttitude.pitch];
     CGFloat dY = [TranslateFunctions getDy:filteredPitch slope:-1/(2*kVTrotationThreshold) withIntercept:0.5f];
     
-    _movingDot.center = CGPointMake(dX*_movingDot.superview.frame.size.width,
-                                    dY*_movingDot.superview.frame.size.height);
-    
-    NSLog(@"filtered roll:%1.2f \t dX = %1.2f",filteredRoll,dX);
+//    _movingDot.center = CGPointMake(dX*_movingDot.superview.frame.size.width,
+//                                    dY*_movingDot.superview.frame.size.height);
+    [self updateMovingDotPosition:CGPointMake(dX,dY)];
+//    NSLog(@"filtered roll:%1.2f \t dX = %1.2f",filteredRoll,dX);
 //    NSLog(@"filtered pitch:%1.2f \t dX = %1.2f",filteredPitch,dY);
     
     [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(filteredPitch)]];
@@ -203,7 +203,19 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
     [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
 }
 
+-(void) setUpMovingDot {
+    [_movingDot.layer setCornerRadius:20.0f];
+    [_movingDot.layer setBorderColor:[UIColor yellowColor].CGColor];
+    [_movingDot.layer setBorderWidth:3.0f];
+    [_movingDot.layer setBackgroundColor:[UIColor clearColor].CGColor];
+}
 
+-(void) updateMovingDotPosition:(CGPoint) point {
+    _movingDot.center = CGPointMake(point.x*_movingDot.superview.frame.size.width,
+                                    point.y*_movingDot.superview.frame.size.height);
+//    CGFloat radius = kVTradius * sinf(point.x * M_PI);
+//    [_movingDot.layer setCornerRadius:radius];
+}
 
 
 #pragma mark set up & tear down video

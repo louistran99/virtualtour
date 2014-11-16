@@ -39,7 +39,7 @@
     static CGFloat error;
     static CGFloat correctedX;
     static CGFloat kalmanGain;
-    const CGFloat kKF = 25.0f;
+    const CGFloat kKF = 35.0f;
     
     kalmanGain = estimatedError/(estimatedError + kKF);
     correctedX = estimatedX + kalmanGain *(measurement -estimatedX);
@@ -55,7 +55,7 @@
     static CGFloat error;
     static CGFloat correctedX;
     static CGFloat kalmanGain;
-    const CGFloat kKF = 25.0f;
+    const CGFloat kKF = 35.0f;
     
     kalmanGain = estimatedError/(estimatedError + kKF);
     correctedX = estimatedX + kalmanGain *(measurement -estimatedX);
@@ -71,7 +71,7 @@
     static CGFloat error;
     static CGFloat correctedX;
     static CGFloat kalmanGain;
-    const CGFloat kKF = 25.0f;
+    const CGFloat kKF = 35.0f;
     
     kalmanGain = estimatedError/(estimatedError + kKF);
     correctedX = estimatedX + kalmanGain *(measurement -estimatedX);
