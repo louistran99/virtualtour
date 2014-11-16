@@ -32,6 +32,7 @@
 		D076FDBC1A11A02C00E9E148 /* IMG_0187.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D076FDB01A11A02C00E9E148 /* IMG_0187.jpg */; };
 		D076FDBD1A11A02C00E9E148 /* IMG_0188.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D076FDB11A11A02C00E9E148 /* IMG_0188.jpg */; };
 		D076FDC11A11A3C900E9E148 /* PanoramaSticher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */; };
+		D089D6C01A19332900E5093A /* circleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D089D6BF1A19332900E5093A /* circleView.m */; };
 		D0CE25941A157EF00014C2B5 /* DirectoryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE25931A157EF00014C2B5 /* DirectoryUtils.m */; };
 		D0CE25971A157EFB0014C2B5 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE25961A157EFB0014C2B5 /* FileUtils.m */; };
 		D0E0702E1A16BB4200CEFE71 /* TranslateFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E0702D1A16BB4200CEFE71 /* TranslateFunctions.m */; };
@@ -87,6 +88,8 @@
 		D076FDB01A11A02C00E9E148 /* IMG_0187.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0187.jpg; sourceTree = "<group>"; };
 		D076FDB11A11A02C00E9E148 /* IMG_0188.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0188.jpg; sourceTree = "<group>"; };
 		D076FDC01A11A3C900E9E148 /* PanoramaSticher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PanoramaSticher.mm; sourceTree = "<group>"; };
+		D089D6BE1A19332900E5093A /* circleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = circleView.h; sourceTree = "<group>"; };
+		D089D6BF1A19332900E5093A /* circleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = circleView.m; sourceTree = "<group>"; };
 		D0CE25921A157EF00014C2B5 /* DirectoryUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryUtils.h; sourceTree = "<group>"; };
 		D0CE25931A157EF00014C2B5 /* DirectoryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectoryUtils.m; sourceTree = "<group>"; };
 		D0CE25951A157EFB0014C2B5 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
@@ -194,6 +197,8 @@
 				D076FD841A11985900E9E148 /* AppDelegate.m */,
 				D076FD861A11985900E9E148 /* ViewController.h */,
 				D076FD871A11985900E9E148 /* ViewController.m */,
+				D089D6BE1A19332900E5093A /* circleView.h */,
+				D089D6BF1A19332900E5093A /* circleView.m */,
 				D070CF2F1A129BAE00AEFD8A /* Image Processing */,
 				D076FD891A11985900E9E148 /* Main.storyboard */,
 				D076FD8C1A11985900E9E148 /* Images.xcassets */,
@@ -407,6 +412,7 @@
 				D070CF3F1A12C1EF00AEFD8A /* ResultVC.m in Sources */,
 				D03F8CD41A14225C007D2136 /* NSString+Extras.m in Sources */,
 				D070CF3C1A12BBE100AEFD8A /* UIImage+OpenCV.mm in Sources */,
+				D089D6C01A19332900E5093A /* circleView.m in Sources */,
 				D076FD821A11985900E9E148 /* main.m in Sources */,
 				D0EDB2381A13D6D800B730A0 /* VTRImageDebugView.m in Sources */,
 				D0E0702E1A16BB4200CEFE71 /* TranslateFunctions.m in Sources */,

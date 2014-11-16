@@ -128,9 +128,9 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="frame_corners" translatesAutoresizingMaskIntoConstraints="NO" id="4CU-Fb-uDh">
                                         <rect key="frame" x="0.0" y="0.0" width="260" height="390"/>
                                     </imageView>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NRU-Ye-cgH">
-                                        <rect key="frame" x="0.0" y="98" width="40" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NRU-Ye-cgH" customClass="circleView">
+                                        <rect key="frame" x="0.0" y="98" width="80" height="80"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -190,6 +190,7 @@
                         <outlet property="activityIndicatorView" destination="tiN-Km-fSo" id="xq8-Xm-e4X"/>
                         <outlet property="debugView" destination="Yi8-tM-N6C" id="tiD-W9-JKm"/>
                         <outlet property="imageView" destination="fR3-et-eew" id="NRt-bh-oOg"/>
+                        <outlet property="movingCircle" destination="NRU-Ye-cgH" id="ojd-i5-29U"/>
                         <outlet property="movingDot" destination="NRU-Ye-cgH" id="pqX-wy-BtD"/>
                         <outlet property="preview" destination="Dbx-wL-G2N" id="KvT-k2-8mx"/>
                         <outlet property="tapToStartView" destination="UQp-jg-h4m" id="DyE-lI-Ygc"/>

@@ -20,13 +20,14 @@
 #import "DirectoryUtils.h"
 #import "FileUtils.h"
 #import "TranslateFunctions.h"
-
+#import "circleView.h"
 
 
 #define radiansToDegrees(x) (180/M_PI)*x
 
 static double const kVTrotationThreshold = (20.0 * M_PI / 180);
-static CGFloat const kVTradius = 30.0f;
+static CGFloat const kVTradius = 35.0f;
+static CGFloat const kVTCircleMarginToTakePicture = 0.04f;
 
 @interface ViewController () <SCRecorderDelegate> {
     dispatch_queue_t _processingQueue;
@@ -35,10 +36,11 @@ static CGFloat const kVTradius = 30.0f;
     // for animation
     UIView *_flashView;
 
-    
     // motion related ivars
     CMMotionManager *_motionManager;
     CADisplayLink *_timer;
+    CGFloat _dX;
+    CGFloat _dY;
     
     //
 }
@@ -71,7 +73,7 @@ static CGFloat const kVTradius = 30.0f;
     [self setUpDisplayLinkTimer];
     
     // set up movingDot view
-    [self setUpMovingDot];
+    [self setUpMovingCircle];
     
     _images = [[NSMutableArray alloc] init];
     _files = [[NSMutableArray alloc] init];
@@ -179,42 +181,37 @@ static CGFloat const kVTradius = 30.0f;
     if (self.referenceAttitude) {
         [self.currentAttitude multiplyByInverseOfAttitude:self.referenceAttitude];
     }
-    
-    if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold) ) {
+    CGFloat filteredRoll = [TranslateFunctions kalmanFilterRoll:self.currentAttitude.roll];
+    _dX = [TranslateFunctions getDx:filteredRoll slope:1/(2*kVTrotationThreshold) withIntercept:1.0f];
+    CGFloat filteredPitch = [TranslateFunctions kalmanFilterPitch:self.currentAttitude.pitch];
+    _dY = [TranslateFunctions getDy:filteredPitch slope:-1/(2*kVTrotationThreshold) withIntercept:0.5f];
+    [self updateMovingCircle:CGPointMake(_dX,_dY)];
+//    NSLog(@"filtered roll:%1.2f \t dX = %1.2f",filteredRoll,_dX);
+//    NSLog(@"filtered pitch:%1.2f \t dY = %1.2f",filteredPitch,_dY);
+
+    if ( (fabsf(_dX - 0.5f) < kVTCircleMarginToTakePicture)
+              && (fabsf(_dY-0.5f) < kVTCircleMarginToTakePicture)) {
         if (_recorder.focusSupported) {
             [_recorder focusCenter];
         }
     }
-    
-    CGFloat filteredRoll = [TranslateFunctions kalmanFilterRoll:self.currentAttitude.roll];
-    CGFloat dX = [TranslateFunctions getDx:filteredRoll slope:1/(2*kVTrotationThreshold) withIntercept:1.0f];
-    
-    CGFloat filteredPitch = [TranslateFunctions kalmanFilterPitch:self.currentAttitude.pitch];
-    CGFloat dY = [TranslateFunctions getDy:filteredPitch slope:-1/(2*kVTrotationThreshold) withIntercept:0.5f];
-    
-//    _movingDot.center = CGPointMake(dX*_movingDot.superview.frame.size.width,
-//                                    dY*_movingDot.superview.frame.size.height);
-    [self updateMovingDotPosition:CGPointMake(dX,dY)];
-//    NSLog(@"filtered roll:%1.2f \t dX = %1.2f",filteredRoll,dX);
-//    NSLog(@"filtered pitch:%1.2f \t dX = %1.2f",filteredPitch,dY);
     
     [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(filteredPitch)]];
     [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
     [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
 }
 
--(void) setUpMovingDot {
-    [_movingDot.layer setCornerRadius:20.0f];
-    [_movingDot.layer setBorderColor:[UIColor yellowColor].CGColor];
-    [_movingDot.layer setBorderWidth:3.0f];
-    [_movingDot.layer setBackgroundColor:[UIColor clearColor].CGColor];
+
+-(void) setUpMovingCircle {
+    _movingCircle.radius = 5.0f;
 }
 
--(void) updateMovingDotPosition:(CGPoint) point {
-    _movingDot.center = CGPointMake(point.x*_movingDot.superview.frame.size.width,
-                                    point.y*_movingDot.superview.frame.size.height);
-//    CGFloat radius = kVTradius * sinf(point.x * M_PI);
-//    [_movingDot.layer setCornerRadius:radius];
+-(void) updateMovingCircle:(CGPoint) point {
+    _movingCircle.center = CGPointMake(point.x*_movingCircle.superview.frame.size.width,
+                                    point.y*_movingCircle.superview.frame.size.height);
+    CGFloat radius = MAX(kVTradius * sinf(point.x * M_PI) * sinf(point.y*M_PI),3);
+//    NSLog(@"%1.2f",radius);
+    _movingCircle.radius = radius;
 }
 
 
@@ -327,11 +324,12 @@ static CGFloat const kVTradius = 30.0f;
             if (focusing) {
                 focusing = false;
                 finishedFocus = true;
-                if (sin(self.currentAttitude.roll) < -sin(kVTrotationThreshold) ) {
-                    NSLog(@"take picture");
+                if ( (fabsf(_dX - 0.5f) < kVTCircleMarginToTakePicture)
+                    && (fabsf(_dY-0.5f) < kVTCircleMarginToTakePicture)) {
                     [self updateReference];
                     [self takePicture:nil];
                 }
+
             }
         }
     }

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PanoramaStitcher.h"
 
+@class circleView;
 @class VTRImageDebugView;
 
 @interface ViewController : UIViewController <PanoramaStitcherProtocol>
@@ -20,6 +21,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *tapToStartView;
 @property (weak, nonatomic) IBOutlet UIView *movingDot;
+@property (strong, nonatomic) IBOutlet circleView *movingCircle;
 
 @end
 
