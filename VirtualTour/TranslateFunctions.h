@@ -12,6 +12,8 @@
 
 +(CGFloat) getDx:(CGFloat)theta slope:(CGFloat) slope withIntercept:(CGFloat) intercept;
 +(CGFloat) getDy:(CGFloat)theta slope:(CGFloat)slope withIntercept:(CGFloat)intercept;
-
++(CGFloat) kalmanFilterPitch:(CGFloat) measurement;
++(CGFloat) kalmanFilterRoll:(CGFloat) measurement;
++(CGFloat) kalmanFilterYaw:(CGFloat) measurement;
 
 @end

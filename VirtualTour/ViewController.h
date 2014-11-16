@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet VTRImageDebugView *debugView;
 
 @property (strong, nonatomic) IBOutlet UIView *tapToStartView;
+@property (weak, nonatomic) IBOutlet UIView *movingDot;
 
 @end
 

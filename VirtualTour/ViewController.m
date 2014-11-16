@@ -183,9 +183,22 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
             [_recorder focusCenter];
         }
     }
-        
-//    NSLog(@"angle threshold:%1.2f \t current angle:%1.2f",sinf(kVTrotationThreshold),sin(self.currentAttitude.roll));
-    [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.pitch)]];
+    
+    
+    
+    CGFloat filteredRoll = [TranslateFunctions kalmanFilterRoll:self.currentAttitude.roll];
+    CGFloat dX = [TranslateFunctions getDx:filteredRoll slope:1/(2*kVTrotationThreshold) withIntercept:1.0f];
+    
+    CGFloat filteredPitch = [TranslateFunctions kalmanFilterPitch:self.currentAttitude.pitch];
+    CGFloat dY = [TranslateFunctions getDy:filteredPitch slope:-1/(2*kVTrotationThreshold) withIntercept:0.5f];
+    
+    _movingDot.center = CGPointMake(dX*_movingDot.superview.frame.size.width,
+                                    dY*_movingDot.superview.frame.size.height);
+    
+    NSLog(@"filtered roll:%1.2f \t dX = %1.2f",filteredRoll,dX);
+//    NSLog(@"filtered pitch:%1.2f \t dX = %1.2f",filteredPitch,dY);
+    
+    [self.debugView.pitchLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(filteredPitch)]];
     [self.debugView.rollLabel setText:[NSString stringWithFormat:@"%f",radiansToDegrees(self.currentAttitude.roll)]];
     [self.debugView.yawLabel setText:[NSString stringWithFormat:@"%1.3f",radiansToDegrees(self.currentAttitude.yaw)]];
 }
@@ -254,9 +267,9 @@ static double const kVTrotationThreshold = (20.0 * M_PI / 180);
                 
 //                NSLog(@"number of images:%d",(int)weakSelf.images.count );
 //                [weakSelf saveImageToDisk:image];
-                if (weakSelf.images.count == 3) {
-                    [weakSelf startStitching:nil];
-                }
+//                if (weakSelf.images.count == 3) {
+//                    [weakSelf startStitching:nil];
+//                }
             }
         }
     }];
